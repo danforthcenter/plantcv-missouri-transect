@@ -50,7 +50,7 @@ def main():
 
     device, roi, roi_hierarchy = pcv.define_roi(img=vis, shape="rectangle", device=device, roi=None,
                                                 roi_input="default", debug=args.debug, adjust=True, x_adj=500,
-                                                y_adj=250, w_adj=-500, h_adj=-250)
+                                                y_adj=250, w_adj=-500, h_adj=-300)
 
     # Find contours
     device, obj, obj_hierarchy = pcv.find_objects(img=vis, mask=mask_filled, device=device, debug=args.debug)
@@ -153,6 +153,10 @@ def main():
                                                                     contours=nir_objects, hierarchy=nir_hierarchy,
                                                                     device=device, debug=args.debug)
 
+    if args.writeimg:
+        outfile = os.path.join(args.outdir, nir_filename)
+    else:
+        outfile = False
     # Measure the NIR contour shape properties
     device, nir_shape_header, nir_shape_data, nir_shape_img = pcv.analyze_object(
         img=cv2.cvtColor(nir, cv2.COLOR_GRAY2BGR), imgname=nir_filename, obj=nir_combined, mask=nir_combinedmask,
