@@ -48,9 +48,15 @@ def main():
     device, mask_filled = pcv.fill(img=np.copy(masks["plant"]), mask=np.copy(masks["plant"]), size=50, device=device,
                                    debug=args.debug)
 
-    device, roi, roi_hierarchy = pcv.define_roi(img=vis, shape="rectangle", device=device, roi=None,
-                                                roi_input="default", debug=args.debug, adjust=True, x_adj=500,
-                                                y_adj=250, w_adj=-500, h_adj=-300)
+    # Define a region of interest
+    if camera == "TV":
+        device, roi, roi_hierarchy = pcv.define_roi(img=vis, shape="rectangle", device=device, roi=None,
+                                                    roi_input="default", debug=debug, adjust=True, x_adj=500, y_adj=250,
+                                                    w_adj=-500, h_adj=-300)
+    elif camera == "SV":
+        device, roi, roi_hierarchy = pcv.define_roi(img=vis, shape="rectangle", device=device, roi=None,
+                                                    roi_input="default", debug=debug, adjust=True, x_adj=600, y_adj=250,
+                                                    w_adj=-600, h_adj=-700)
 
     # Find contours
     device, obj, obj_hierarchy = pcv.find_objects(img=vis, mask=mask_filled, device=device, debug=args.debug)
